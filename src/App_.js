@@ -28,9 +28,9 @@ const App = () => {
 
     let request;
     if (authMode === 'login') {
-      request = axios.post('https://backend-taicon-osft.netlify.app/login', authData);
+      request = axios.post('https://app-osft-taicon.herokuapp.com/login', authData);
     } else {
-      request = axios.post('https://backend-taicon-osft.netlify.app/signup', authData);
+      request = axios.post('https://app-osft-taicon.herokuapp.com/signup', authData);
     }
     request
       .then(authResponse => {
