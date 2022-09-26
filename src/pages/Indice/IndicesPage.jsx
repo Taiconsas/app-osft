@@ -26,7 +26,7 @@ const IndicesPage = () => {
 
   const indiceDeleteHandler = (indiceId) => {
     axios
-      .delete('https://backend-taicon-osft.netlify.app/.netlify/functions/indices/' + indiceId)
+      .delete('https://backend-taicon-osft.netlify.app/indices/' + indiceId)
       .then(result => {
         console.log(result);
         this.fetchData();
@@ -41,7 +41,7 @@ const IndicesPage = () => {
 
 const fetchData = () => {
   if (ocupacionSelected !== '' && ocupacionSelected !== "-1"){
-    const url = `https://backend-taicon-osft.netlify.app/.netlify/functions/indices/${ocupacionSelected}`;
+    const url = `https://backend-taicon-osft.netlify.app/indices/${ocupacionSelected}`;
     axios
     .get(url)
     .then(indicesResponse => {
@@ -59,10 +59,11 @@ const fetchData = () => {
 
   const fetchFilter = () => {
     axios
-      .get('https://backend-taicon-osft.netlify.app/.netlify/functions/indicesFilter')
+      .get('https://backend-taicon-osft.netlify.app/indicesFilter')
       .then(indicesResponse => {
         setFilter(indicesResponse.data);
         setIsLoading(false);
+        console.log("Filter Ok!");
       })
       .catch(err => {
         console.log(err);

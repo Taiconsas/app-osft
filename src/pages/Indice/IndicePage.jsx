@@ -25,7 +25,7 @@ const IndicePage = (props) => {
   useEffect(() => {
     // console.log('Entro.......', props.match.params.id);
     const value = props.match.params.id.replace('+', '').trim();
-    const url = `https://backend-taicon-osft.netlify.app/.netlify/functions/indices/${value}`;
+    const url = `https://backend-taicon-osft.netlify.app/indices/${value}`;
     axios
       .get(url)
       .then(indiceResponse => {
@@ -93,7 +93,7 @@ const IndicePage = (props) => {
             <br />
             <b>Descripción de la ocupación:</b>{Array.isArray(ocupacion) ? (ocupacion).map((item) => { return <Ocupacion key={item.cod_indice} ocupacion={item} /> }) : "error desplegando ocupación, intente mas tarde.."}<br />
             <br />
-            <b>Area cualificacion: </b>{Array.isArray(areaCualificacion) ? (areaCualificacion).map((item) => { return <AreaCualificacion key={item.codigo_area_cualificacion} area={item} /> }) : "error desplegando areas de conocimiento, intente mas tarde.."} <br />
+            {/* <b>Area cualificacion: </b>{Array.isArray(areaCualificacion) ? (areaCualificacion).map((item) => { return <AreaCualificacion key={item.codigo_area_cualificacion} area={item} /> }) : "error desplegando areas de conocimiento, intente mas tarde.."} <br /> */}
             <br />
             <b>Conocimientos:</b>{Array.isArray(conocimiento) ? (conocimiento).map((item) => { return <Conocimiento key={item.id_conocimiento} conocimiento={item} /> } ) : "error desplegando conocimiento, intente mas tarde.." } <br />
             <br />

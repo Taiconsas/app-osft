@@ -28,9 +28,9 @@ class App extends Component {
     }
     let request;
     if (this.state.authMode === 'login') {
-      request = axios.post('https://backend-taicon-osft.netlify.app/.netlify/functions/login', authData);
+      request = axios.post('https://backend-taicon-osft.netlify.app/login', authData);
     } else {
-      request = axios.post('https://backend-taicon-osft.netlify.app/.netlify/functions/signup', authData);
+      request = axios.post('https://backend-taicon-osft.netlify.app/signup', authData);
     }
     request
       .then(authResponse => {

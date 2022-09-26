@@ -14,7 +14,7 @@ const EditIndicePage = (props) => {
     // Will be "edit" or "add"
     if (props.match.params.mode === 'edit') {
       axios
-        .get('https://backend-taicon-osft.netlify.app/.netlify/functions/indices/' + this.props.match.params.id)
+        .get('https://backend-taicon-osft.netlify.app/indices/' + this.props.match.params.id)
         .then(indiceResponse => {
           const indice = indiceResponse.data;
           setTitle(indice.name);
@@ -49,11 +49,11 @@ const EditIndicePage = (props) => {
     let request;
     if (props.match.params.mode === 'edit') {
       request = axios.patch(
-        'https://backend-taicon-osft.netlify.app/.netlify/functions/indices/' + props.match.params.id,
+        'https://backend-taicon-osft.netlify.app/indices/' + props.match.params.id,
         indiceData
       );
     } else {
-      request = axios.post('https://backend-taicon-osft.netlify.app/.netlify/functions/indices', indiceData);
+      request = axios.post('https://backend-taicon-osft.netlify.app/indices', indiceData);
     }
     request
       .then(result => {
