@@ -22,6 +22,7 @@ const IndiceDetail = ({ indice }) => {
     setFunciones(indice["funciones04"]);
     setOcupacionAfin(indice["ocupacion_afin07"]);
     setDenominacionOcupacion(indice["denominaciones03"]);
+    setAreCualificacion(indice["areas"]);
   }, [indice]);
 
   // for (var i in indice){
@@ -82,7 +83,7 @@ const IndiceDetail = ({ indice }) => {
         <b>Descripción de ocupación:</b>{Array.isArray(ocupacion) ? (ocupacion).map((item) => { return <Ocupacion key={item.cod_indice} ocupacion={item} /> }) : "error desplegando ocupación, intente mas tarde.."}<br />
         </h3>
         <br />
-        {/* <b>Area cualificacion: </b>{Array.isArray(areaCualificacion) ? (areaCualificacion).map((item) => { return <AreaCualificacion key={item.codigo_area_cualificacion} area={item} /> }) : "error desplegando areas de conocimiento, intente mas tarde.."} <br /> */}
+        <b>Area cualificación: </b>{Array.isArray(areaCualificacion) ? (areaCualificacion).map((item) => { return <AreaCualificacion key={item._id} area={item} /> }) : "error desplegando areas de conocimiento, intente mas tarde.."} <br />
         <h4>
         <br />
         <b>Conocimientos:</b>{Array.isArray(conocimiento) ? (conocimiento).map((item) => { return <Conocimiento key={item.id_conocimiento} conocimiento={item} /> }) : "error desplegando conocimiento, intente mas tarde.."} <br />

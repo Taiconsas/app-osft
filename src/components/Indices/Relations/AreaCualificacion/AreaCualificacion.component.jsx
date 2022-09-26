@@ -1,11 +1,11 @@
 import React from 'react';
 
 const AreaCualificacion = ({ area }) => {
-  const { codigo_area_cualificacion, area_cualificacion } = area;
+  const { id_area_cualificacion, nombre_area_cualificacion, sigla_area_cualificacion } = area;
 
   return (
     <div>
-      - <b>( {codigo_area_cualificacion} )</b>  {area_cualificacion}.
+      - <b>( Código: {id_area_cualificacion} Sigla: {sigla_area_cualificacion} )</b>  {nombre_area_cualificacion}.
     </div>
   );
 };
