@@ -5,7 +5,7 @@ const OcupacionAfin = ({ ocupacion }) => {
 
   return (
     <div>
-      - <b>( {ocupacion_afin} )</b>  {nombre_ocupacion_afin}.
+      * <b>( {ocupacion_afin} )</b>  {nombre_ocupacion_afin}.
     </div>
   );
 };

@@ -5,7 +5,7 @@ const Conocimiento = ({ conocimiento }) => {
 
   return (
     <div>
-      - <b>( {id_conocimiento} )</b>  {nombre_conocimiento}.
+      * <b>( {id_conocimiento} )</b>  {nombre_conocimiento}.
     </div>
   );
 };
