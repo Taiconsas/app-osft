@@ -35,9 +35,9 @@
 .main-header__nav-item a:hover,
 .main-header__nav-item a:active,
 .main-header__nav-item a.active {
-  background: #6200ff;
-  border-radius: 5px;
-  color: white;
+  background: #00276c;
+  border-radius: 15px;
+  color: whitesmoke;
 }
 
 .main-header__nav-item button {
@@ -46,14 +46,14 @@
   border: none;
   background: transparent;
   padding: 0.25rem 0.5rem;
-  color: #f84d8e;
+  color: #96b3ff;
 }
 
 .main-header__nav-item button:hover,
 .main-header__nav-item button:active {
-  background: #f84d8e;
-  border-radius: 5px;
-  color: white;
+  background: #00003d;
+  border-radius: 15px;
+  color: whitesmoke;
 }
 
 .main-header__nav-item button:focus {
