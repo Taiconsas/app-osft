@@ -26,7 +26,7 @@ const IndiceDetail = ({ indice }) => {
     setOcupacionAfin(indice["ocupacion_afin07"]);
     setDenominacionOcupacion(indice["denominaciones03"]);
     setAreCualificacion(indice["areas"]);
-    setDestrezas(indice["areas"]);
+    setDestrezas(indice["destreza06"]);
     setCompetencia(indice["competencia11"]);
   }, [indice]);
 

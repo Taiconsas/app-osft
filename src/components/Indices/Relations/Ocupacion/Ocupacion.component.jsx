@@ -10,7 +10,7 @@ const Ocupacion = ({ ocupacion, competencia }) => {
       {descripcion_ocupacion}
       <br/>
       <br/>
-       * Competencia: <br/>{descriptor_nivel_competencia_cuoc}
+       * Nivel de competencia cuoc: {nivel_competencia_cuoc}
     </div>
   );
 };
