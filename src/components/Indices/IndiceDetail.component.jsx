@@ -5,6 +5,7 @@ import AreaCualificacion from '../../components/Indices/Relations/AreaCualificac
 import Funciones from '../../components/Indices/Relations/Funcion/Funcion.component';
 import OcupacionAfin from '../../components/Indices/Relations/OcupacionAfin/OcupacionAfin.component';
 import Denominacion from '../../components/Indices/Relations/Denominacion/Denominacion.component';
+import Destreza from './Relations/Destreza/Destreza.component';
 
 const IndiceDetail = ({ indice }) => {
   const [ocupacion, setOcupacion] = useState({});
@@ -13,6 +14,8 @@ const IndiceDetail = ({ indice }) => {
   const [funciones, setFunciones] = useState({});
   const [ocupacionAfin, setOcupacionAfin] = useState({});
   const [denominacionOcupacion, setDenominacionOcupacion] = useState({});
+  const [destrezas, setDestrezas] = useState({});
+  const [competencia, setCompetencia] = useState({});
 
   useEffect(() => {
     console.log("indice..", indice);
@@ -23,6 +26,8 @@ const IndiceDetail = ({ indice }) => {
     setOcupacionAfin(indice["ocupacion_afin07"]);
     setDenominacionOcupacion(indice["denominaciones03"]);
     setAreCualificacion(indice["areas"]);
+    setDestrezas(indice["areas"]);
+    setCompetencia(indice["competencia11"]);
   }, [indice]);
 
   // for (var i in indice){
@@ -80,7 +85,7 @@ const IndiceDetail = ({ indice }) => {
         </h3> */}
         <h3>
         <br />
-        <b>Descripción de ocupación:</b>{Array.isArray(ocupacion) ? (ocupacion).map((item) => { return <Ocupacion key={item.cod_indice} ocupacion={item} /> }) : "error desplegando ocupación, intente mas tarde.."}<br />
+        <b>Descripción de ocupación:</b>{Array.isArray(ocupacion) ? (ocupacion).map((item) => { return <Ocupacion key={item.cod_indice} ocupacion={item} competencia={competencia[0]} /> }) : "error desplegando ocupación, intente mas tarde.."}<br />
         </h3>
         <br />
         <h4>
@@ -103,6 +108,9 @@ const IndiceDetail = ({ indice }) => {
         <b>Denominaciones:</b>{Array.isArray(denominacionOcupacion) ? (denominacionOcupacion).map((item) => { return <Denominacion key={item.denominacion} denominacionOcu={item} /> }) : "error desplegando ocupaciones afines, intente mas tarde.."} <br />
         </h4>
         <br />
+         <h3>
+        <b>Destrezas:</b>{Array.isArray(destrezas) ? (destrezas).map((item) => { return <Destreza key={item.id_destreza} destreza={item} /> }) : "error desplegando ocupaciones afines, intente mas tarde.."} <br />
+        </h3>
       </div>
     </div>
   );
