@@ -27,7 +27,7 @@ h2 {
 h3 {
   margin: 5px;
   padding: 2rem;
-  text-align: left;
+  text-align: justify;
   background-color: whitesmoke;
   color: black;
   box-sizing: inherit;
@@ -39,7 +39,7 @@ h3 {
 h4 {
   margin: 5px;
   padding: 2rem;
-  text-align: left;
+  text-align: justify;
   background-color: #1c52ac;
   color: whitesmoke;
   box-sizing: inherit;
