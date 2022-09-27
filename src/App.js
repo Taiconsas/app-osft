@@ -8,7 +8,8 @@ import Backdrop from './components/Backdrop/Backdrop';
 import IndicesPage from './pages/Indice/IndicesPage';
 import IndicePage from './pages/Indice/IndicePage';
 import EditIndicePage from './pages/Indice/EditIndicePage';
-import AuthPage from './pages/Auth/Auth';
+// import AuthPage from './pages/Auth/Auth';
+import AuthPage from './pages/Auth/Auth.jsx';
 
 class App extends Component {
   state = {
@@ -22,6 +23,7 @@ class App extends Component {
   };
 
   authHandler = (event, authData) => {
+    console.log('https://app-osft-taicon.herokuapp.com/login', authData);
     event.preventDefault();
     if (authData.email.trim() === '' || authData.password.trim() === '') {
       return;
