@@ -3,80 +3,77 @@ import Select from 'react-select'
 import axios from 'axios';
 
 import Indices from '../../components/Indices/Indices.component';
-import IndiceDetail from '../../components/Indices/IndiceDetail.component';
+import AreaDetail from '../../components/AreaCualificacion/AreaDetail.component';
 
-const IndicesPage = (props) => {
+const AreasPage = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [indice, setIndice] = useState(null);
+  const [area, setArea] = useState(null);
   const [filter, setFilter] = useState([]);
-  const [ocupacionSelected, setOcupacionSelected] = useState('');
-
+  const [areaSelected, setAreaSelected] = useState('');
 
   useEffect(() => {
     fetchFilter();
   }, []);
 
   useEffect(() => {
-    if (!(Object.entries(props["match"]["params"]).length === 0)) {
-      setOcupacionSelected(props.match.params.id.replace('+', '').trim());
-    }
     fetchData();
-  }, [ocupacionSelected]);
+  }, [areaSelected]);
 
   const handler = useCallback(
     (event) => {
       if (event != null) {
-        props["match"]["params"] = [];
-        setOcupacionSelected(event._id);
+        setAreaSelected(event._id);
       } else {
-        setIndice(null);
-        setOcupacionSelected('');
+        setArea(null);
+        setAreaSelected('');
       }
     },
   );
 
-  const indiceDeleteHandler = (indiceId) => {
-    axios
-      .delete('https://app-osft-taicon.herokuapp.com/indices/' + indiceId)
-      .then(result => {
-        console.log(result);
-        this.fetchData();
-      })
-      .catch(err => {
-        this.props.onError(
-          'Deleting the indice failed. Please try again later'
-        );
-        console.log(err);
-      });
-  };
+  // const indiceDeleteHandler = (indiceId) => {
+  //   axios
+  //     .delete('http://localhost:3200/indices/' + indiceId)
+  //     .then(result => {
+  //       console.log(result);
+  //       this.fetchData();
+  //     })
+  //     .catch(err => {
+  //       this.props.onError(
+  //         'Deleting the area failed. Please try again later'
+  //       );
+  //       console.log(err);
+  //     });
+  // };
 
   const fetchData = () => {
-    if (ocupacionSelected !== '' && ocupacionSelected !== "-1"){
-      const url = `https://app-osft-taicon.herokuapp.com/indices/${ocupacionSelected}`;
+    if (areaSelected !== '' && areaSelected !== "-1") {
+      const url = `http://localhost:3200/indicesArea/${areaSelected}`;
       axios
         .get(url)
-        .then(indicesResponse => {
-          setIndice(indicesResponse.data[0]);
+        .then(areasResponse => {
+          console.log("Ocupaciones: ",JSON.stringify(areasResponse.data[0]));
+          setArea(areasResponse.data[0]);
           setIsLoading(false);
         })
         .catch(err => {
           console.log(err);
-          setIndice({});
+          setArea({});
           setIsLoading(false);
-          this.props.onError('Loading indices failed. Please try again later');
+          this.props.onError('Loading Ocupaciones failed. Please try again later');
         });
     }
   };
 
   const fetchFilter = () => {
     axios
-      .get('https://app-osft-taicon.herokuapp.com/indicesFilter')
-      .then(indicesResponse => {
-        setFilter(indicesResponse.data);
+      .get('http://localhost:3200/areasFilter')
+      .then(areasResponse => {
+        //console.log("Areas: ", JSON.stringify(areasResponse.data))
+        setFilter(areasResponse.data);
         setIsLoading(false);
       })
       .catch(err => {
-        console.log(err);
+        console.log("Error:",err);
         setFilter([]);
         setIsLoading(false);
         this.props.onError('Loading filter failed. Please try again later');
@@ -97,10 +94,10 @@ const IndicesPage = (props) => {
     <main>
       <br />
       <div className="form-group">
-        <Select className="search-index"
-          placeholder="Seleccione una ocupación..."
+        <Select
+          placeholder="Seleccione una area de calualificación..."
           getOptionLabel={option =>
-            `${option.cod_indice} - ${option.nombre_cuoc_indice}`
+            `${option.sigla_area_cualificacion} - ${option.nombre_area_cualificacion}`
           }
           getOptionValue={option => `${option._id}`}
           filterOption={customFilter}
@@ -123,18 +120,18 @@ const IndicesPage = (props) => {
       {isLoading ? (
         <p>Loading indices...</p>
       ) : (
-        indice !== null ? (
+        area !== null ? (
           //   <Indices
           //   indices={indices}
           //   filter={filter}
           //   handler={handler}
           // /> 
-          <IndiceDetail indice={indice} />
+          <AreaDetail indice={area}  />
         ) : (
-          <p>Seleccione una ocupación.</p>
-        ))}
+          <p>Seleccione una area de cualificacion.</p>
+        ))} 
     </main>
   );
 };
 
-export default IndicesPage;
+export default AreasPage;

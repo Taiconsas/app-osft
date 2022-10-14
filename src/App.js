@@ -8,6 +8,7 @@ import Backdrop from './components/Backdrop/Backdrop';
 import IndicesPage from './pages/Indice/IndicesPage';
 import IndicePage from './pages/Indice/IndicePage';
 import EditIndicePage from './pages/Indice/EditIndicePage';
+import AreasPage from './pages/AreaCualificacion/AreasPage';
 // import AuthPage from './pages/Auth/Auth';
 import AuthPage from './pages/Auth/Auth.jsx';
 
@@ -86,13 +87,19 @@ class App extends Component {
         <Route
           path="/indices/:id"
           render={props => (
-            <IndicePage {...props} onError={this.errorHandler} />
+            <IndicesPage {...props} onError={this.errorHandler} />
           )}
         />
         <Route
           path="/indices"
           render={props => (
             <IndicesPage {...props} onError={this.errorHandler} />
+          )}
+        />
+        <Route
+          path="/areas"
+          render={props => (
+            <AreasPage {...props} onError={this.errorHandler} />
           )}
         />
       </Switch>

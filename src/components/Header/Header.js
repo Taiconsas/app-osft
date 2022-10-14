@@ -9,8 +9,11 @@ const header = props => {
       <li className="main-header__nav-item">
         <NavLink to="/indices">Indices</NavLink>
       </li>
-      <li className="main-header__nav-item">
+      {/* <li className="main-header__nav-item">
         <NavLink to="/indice/add">Add Indice</NavLink>
+      </li> */}
+      <li className="main-header__nav-item">
+        <NavLink to="/areas">Areas Cualificacion</NavLink>
       </li>
 
       <li className="main-header__nav-item">
