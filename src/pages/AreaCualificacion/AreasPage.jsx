@@ -47,7 +47,7 @@ const AreasPage = () => {
 
   const fetchData = () => {
     if (areaSelected !== '' && areaSelected !== "-1") {
-      const url = `http://localhost:3200/indicesArea/${areaSelected}`;
+      const url = `https://app-osft-taicon.herokuapp.com/indicesArea/${areaSelected}`;
       axios
         .get(url)
         .then(areasResponse => {
@@ -66,7 +66,7 @@ const AreasPage = () => {
 
   const fetchFilter = () => {
     axios
-      .get('http://localhost:3200/areasFilter')
+      .get('https://app-osft-taicon.herokuapp.com/areasFilter')
       .then(areasResponse => {
         //console.log("Areas: ", JSON.stringify(areasResponse.data))
         setFilter(areasResponse.data);
