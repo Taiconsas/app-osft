@@ -5,12 +5,21 @@ import Ocupacion from '../../components/Indices/Relations/Ocupacion/Ocupacion.co
 const areaDetail = ({ indice }) => {
     const [indices, setIndices] = useState({});
     const [ocupaciones, setOcupacion] = useState({});
+    const [arreglo, setArreglo] = useState({});
 
 
     useEffect(() => {
-        console.log("indice..", indice);
+        //console.log("indice..", indice);
         setIndices(indice["indices"]);
         setOcupacion(indice["ocupaciones"]);
+
+        //setArreglo({...indice["indices"], ...indice["ocupaciones"] });
+
+        // let sortedProducts = indice["ocupaciones"].sort(
+        //     (p1, p2) => (p1.nivel_competencia < p2.nivel_competencia) ? 1 : (p1.nivel_competencia > p2.nivel_competencia) ? -1 : 0);
+
+        // const arreglos = {...indice["ocupaciones"] , ...indice["indices"]};
+        // console.log("Arreglos", sortedProducts);
     }, [indice]);
 
     // for (var i in indice){
@@ -52,17 +61,15 @@ const areaDetail = ({ indice }) => {
     return (
         <div>
             <h3>
-                <ul>
                 {Array.isArray(indices) ? (indices).map((item, index) => {
                     return (
                         <a href={'/indices/' + item._id}
                             key={item.cod_indice}>
-                                <button>{ocupaciones[index].nivel_competencia} - {item.nombre_cuoc_indice}
-                            </button>
+                            <button>{ocupaciones[index].nivel_competencia} - {item.nombre_cuoc_indice}
+                            </button><br />
                         </a>
                     )
                 }) : "error desplegando ocupación, intente mas tarde.."}<br />
-                </ul>
             </h3>
             <br />
         </div>

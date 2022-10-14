@@ -51,7 +51,7 @@ const AreasPage = () => {
       axios
         .get(url)
         .then(areasResponse => {
-          console.log("Ocupaciones: ",JSON.stringify(areasResponse.data[0]));
+          //console.log("Ocupaciones: ",JSON.stringify(areasResponse.data[0]));
           setArea(areasResponse.data[0]);
           setIsLoading(false);
         })
