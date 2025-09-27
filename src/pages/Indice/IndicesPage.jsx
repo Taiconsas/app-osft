@@ -37,7 +37,7 @@ const IndicesPage = (props) => {
 
   const indiceDeleteHandler = (indiceId) => {
     axios
-      .delete('https://app-osft-taicon.herokuapp.com/indices/' + indiceId)
+      .delete('https://taicon-osft-services.onrender.com/indices/' + indiceId)
       .then(result => {
         console.log(result);
         this.fetchData();
@@ -52,7 +52,7 @@ const IndicesPage = (props) => {
 
   const fetchData = () => {
     if (ocupacionSelected !== '' && ocupacionSelected !== "-1"){
-      const url = `https://app-osft-taicon.herokuapp.com/indices/${ocupacionSelected}`;
+      const url = `https://taicon-osft-services.onrender.com/indices/${ocupacionSelected}`;
       axios
         .get(url)
         .then(indicesResponse => {
@@ -70,7 +70,7 @@ const IndicesPage = (props) => {
 
   const fetchFilter = () => {
     axios
-      .get('https://app-osft-taicon.herokuapp.com/indicesFilter')
+      .get('https://taicon-osft-services.onrender.com/indicesFilter')
       .then(indicesResponse => {
         setFilter(indicesResponse.data);
         setIsLoading(false);

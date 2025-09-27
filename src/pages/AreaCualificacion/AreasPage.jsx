@@ -32,7 +32,7 @@ const AreasPage = () => {
 
   // const indiceDeleteHandler = (indiceId) => {
   //   axios
-  //     .delete('http://localhost:3200/indices/' + indiceId)
+  //     .delete('http://localhost:3200indices/' + indiceId)
   //     .then(result => {
   //       console.log(result);
   //       this.fetchData();
@@ -47,7 +47,7 @@ const AreasPage = () => {
 
   const fetchData = () => {
     if (areaSelected !== '' && areaSelected !== "-1") {
-      const url = `https://app-osft-taicon.herokuapp.com/indicesArea/${areaSelected}`;
+      const url = `https://taicon-osft-services.onrender.com/indicesArea/${areaSelected}`;
       axios
         .get(url)
         .then(areasResponse => {
@@ -66,7 +66,7 @@ const AreasPage = () => {
 
   const fetchFilter = () => {
     axios
-      .get('https://app-osft-taicon.herokuapp.com/areasFilter')
+      .get('https://taicon-osft-services.onrender.com/areasFilter')
       .then(areasResponse => {
         //console.log("Areas: ", JSON.stringify(areasResponse.data))
         setFilter(areasResponse.data);

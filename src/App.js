@@ -24,16 +24,16 @@ class App extends Component {
   };
 
   authHandler = (event, authData) => {
-    console.log('https://app-osft-taicon.herokuapp.com/login', authData);
+    console.log('http://https://taicon-osft-services.onrender.com/login', authData);
     event.preventDefault();
     if (authData.email.trim() === '' || authData.password.trim() === '') {
       return;
     }
     let request;
     if (this.state.authMode === 'login') {
-      request = axios.post('https://app-osft-taicon.herokuapp.com/login', authData);
+      request = axios.post('http://https://taicon-osft-services.onrender.com/login', authData);
     } else {
-      request = axios.post('https://app-osft-taicon.herokuapp.com/signup', authData);
+      request = axios.post('http://https://taicon-osft-services.onrender.com/signup', authData);
     }
     request
       .then(authResponse => {

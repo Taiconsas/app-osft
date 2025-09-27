@@ -25,7 +25,7 @@ const IndicePage = (props) => {
   useEffect(() => {
     // console.log('Entro.......', props.match.params.id);
     const value = props.match.params.id.replace('+', '').trim();
-    const url = `https://app-osft-taicon.herokuapp.com/indices/${value}`;
+    const url = `https://taicon-osft-services.onrender.com/indices/${value}`;
     axios
       .get(url)
       .then(indiceResponse => {

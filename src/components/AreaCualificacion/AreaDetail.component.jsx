@@ -6,7 +6,7 @@ const areaDetail = ({ indice }) => {
     const [indices, setIndices] = useState({});
     const [ocupaciones, setOcupacion] = useState({});
     const [arreglo, setArreglo] = useState({});
-
+   
 
     useEffect(() => {
         //console.log("indice..", indice);

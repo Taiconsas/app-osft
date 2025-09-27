@@ -14,7 +14,7 @@ const EditIndicePage = (props) => {
     // Will be "edit" or "add"
     if (props.match.params.mode === 'edit') {
       axios
-        .get('https://app-osft-taicon.herokuapp.com/indices/' + this.props.match.params.id)
+        .get('https://taicon-osft-services.onrender.com/indices/' + this.props.match.params.id)
         .then(indiceResponse => {
           const indice = indiceResponse.data;
           setTitle(indice.name);
@@ -49,11 +49,11 @@ const EditIndicePage = (props) => {
     let request;
     if (props.match.params.mode === 'edit') {
       request = axios.patch(
-        'https://app-osft-taicon.herokuapp.com/indices/' + props.match.params.id,
+        'https://taicon-osft-services.onrender.com/indices/' + props.match.params.id,
         indiceData
       );
     } else {
-      request = axios.post('https://app-osft-taicon.herokuapp.com/indices', indiceData);
+      request = axios.post('https://taicon-osft-services.onrender.com/indices', indiceData);
     }
     request
       .then(result => {
