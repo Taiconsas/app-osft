@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import Indices from '../../components/Indices/Indices.component';
 import IndiceDetail from '../../components/Indices/IndiceDetail.component';
+import { API_BASE } from "../../api";
 
 const IndicesPage = (props) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +38,7 @@ const IndicesPage = (props) => {
 
   const indiceDeleteHandler = (indiceId) => {
     axios
-      .delete('https://taicon-osft-services.onrender.com/indices/' + indiceId)
+      .delete(`${API_BASE}/indices/` + indiceId)
       .then(result => {
         console.log(result);
         this.fetchData();
@@ -52,7 +53,7 @@ const IndicesPage = (props) => {
 
   const fetchData = () => {
     if (ocupacionSelected !== '' && ocupacionSelected !== "-1"){
-      const url = `https://taicon-osft-services.onrender.com/indices/${ocupacionSelected}`;
+      const url = `${API_BASE}/indices/${ocupacionSelected}`;
       axios
         .get(url)
         .then(indicesResponse => {
@@ -70,7 +71,7 @@ const IndicesPage = (props) => {
 
   const fetchFilter = () => {
     axios
-      .get('https://taicon-osft-services.onrender.com/indicesFilter')
+      .get(`${API_BASE}/indicesFilter`)
       .then(indicesResponse => {
         setFilter(indicesResponse.data);
         setIsLoading(false);

@@ -9,6 +9,7 @@ import OcupacionAfin from '../../components/Indices/Relations/OcupacionAfin/Ocup
 import Denominacion from '../../components/Indices/Relations/Denominacion/Denominacion.component';
 
 import './IndicePage.css';
+import { API_BASE } from "../../api";
 
 const IndicePage = (props) => {
   const [indice, setIndice] = useState({});
@@ -25,7 +26,7 @@ const IndicePage = (props) => {
   useEffect(() => {
     // console.log('Entro.......', props.match.params.id);
     const value = props.match.params.id.replace('+', '').trim();
-    const url = `https://taicon-osft-services.onrender.com/indices/${value}`;
+    const url = `${API_BASE}/indices/${value}`;
     axios
       .get(url)
       .then(indiceResponse => {

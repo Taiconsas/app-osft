@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { API_BASE } from "../../api";
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 
@@ -14,7 +14,7 @@ const EditIndicePage = (props) => {
     // Will be "edit" or "add"
     if (props.match.params.mode === 'edit') {
       axios
-        .get('https://taicon-osft-services.onrender.com/indices/' + this.props.match.params.id)
+        .get(`${API_BASE}/indices/` + this.props.match.params.id)
         .then(indiceResponse => {
           const indice = indiceResponse.data;
           setTitle(indice.name);
@@ -49,11 +49,11 @@ const EditIndicePage = (props) => {
     let request;
     if (props.match.params.mode === 'edit') {
       request = axios.patch(
-        'https://taicon-osft-services.onrender.com/indices/' + props.match.params.id,
+        `${API_BASE}/indices/` + props.match.params.id,
         indiceData
       );
     } else {
-      request = axios.post('https://taicon-osft-services.onrender.com/indices', indiceData);
+      request = axios.post(`${API_BASE}/indices`, indiceData);
     }
     request
       .then(result => {

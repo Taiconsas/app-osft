@@ -11,6 +11,7 @@ import EditIndicePage from './pages/Indice/EditIndicePage';
 import AreasPage from './pages/AreaCualificacion/AreasPage';
 // import AuthPage from './pages/Auth/Auth';
 import AuthPage from './pages/Auth/Auth.jsx';
+import { API_BASE } from "./api";
 
 class App extends Component {
   state = {
@@ -24,16 +25,16 @@ class App extends Component {
   };
 
   authHandler = (event, authData) => {
-    console.log('http://https://taicon-osft-services.onrender.com/login', authData);
+    console.log(`${API_BASE}/login`, authData);
     event.preventDefault();
     if (authData.email.trim() === '' || authData.password.trim() === '') {
       return;
     }
     let request;
     if (this.state.authMode === 'login') {
-      request = axios.post('http://https://taicon-osft-services.onrender.com/login', authData);
+      request = axios.post(`${API_BASE}/login`, authData);
     } else {
-      request = axios.post('http://https://taicon-osft-services.onrender.com/signup', authData);
+      request = axios.post(`${API_BASE}/signup`, authData);
     }
     request
       .then(authResponse => {

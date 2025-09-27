@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Select from 'react-select'
+import Select from 'react-select';
 import axios from 'axios';
-
-import Indices from '../../components/Indices/Indices.component';
+import { API_BASE } from "../../api";
 import AreaDetail from '../../components/AreaCualificacion/AreaDetail.component';
 
 const AreasPage = () => {
@@ -19,75 +18,48 @@ const AreasPage = () => {
     fetchData();
   }, [areaSelected]);
 
-  const handler = useCallback(
-    (event) => {
-      if (event != null) {
-        setAreaSelected(event._id);
-      } else {
-        setArea(null);
-        setAreaSelected('');
-      }
-    },
-  );
-
-  // const indiceDeleteHandler = (indiceId) => {
-  //   axios
-  //     .delete('http://localhost:3200indices/' + indiceId)
-  //     .then(result => {
-  //       console.log(result);
-  //       this.fetchData();
-  //     })
-  //     .catch(err => {
-  //       this.props.onError(
-  //         'Deleting the area failed. Please try again later'
-  //       );
-  //       console.log(err);
-  //     });
-  // };
+  const handler = useCallback((event) => {
+    if (event != null) {
+      setAreaSelected(event._id);
+    } else {
+      setArea(null);
+      setAreaSelected('');
+    }
+  }, []);
 
   const fetchData = () => {
     if (areaSelected !== '' && areaSelected !== "-1") {
-      const url = `https://taicon-osft-services.onrender.com/indicesArea/${areaSelected}`;
+      const url = `${API_BASE}/indicesArea/${areaSelected}`;
       axios
         .get(url)
         .then(areasResponse => {
-          //console.log("Ocupaciones: ",JSON.stringify(areasResponse.data[0]));
           setArea(areasResponse.data[0]);
           setIsLoading(false);
         })
         .catch(err => {
-          console.log(err);
+          console.error("Error cargando ocupaciones:", err);
           setArea({});
           setIsLoading(false);
-          this.props.onError('Loading Ocupaciones failed. Please try again later');
         });
     }
   };
 
   const fetchFilter = () => {
     axios
-      .get('https://taicon-osft-services.onrender.com/areasFilter')
+      .get(`${API_BASE}/areasFilter`)
       .then(areasResponse => {
-        //console.log("Areas: ", JSON.stringify(areasResponse.data))
         setFilter(areasResponse.data);
         setIsLoading(false);
       })
       .catch(err => {
-        console.log("Error:",err);
+        console.error("Error cargando filtros:", err);
         setFilter([]);
         setIsLoading(false);
-        this.props.onError('Loading filter failed. Please try again later');
       });
   };
 
   const customFilter = (option, searchText) => {
-    if (
-      option.label.toLowerCase().includes(searchText.toLowerCase())
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    return option.label.toLowerCase().includes(searchText.toLowerCase());
   };
 
   return (
@@ -95,7 +67,7 @@ const AreasPage = () => {
       <br />
       <div className="form-group">
         <Select
-          placeholder="Seleccione una area de calualificación..."
+          placeholder="Seleccione una area de cualificación..."
           getOptionLabel={option =>
             `${option.sigla_area_cualificacion} - ${option.nombre_area_cualificacion}`
           }
@@ -121,15 +93,11 @@ const AreasPage = () => {
         <p>Loading indices...</p>
       ) : (
         area !== null ? (
-          //   <Indices
-          //   indices={indices}
-          //   filter={filter}
-          //   handler={handler}
-          // /> 
-          <AreaDetail indice={area}  />
+          <AreaDetail indice={area} />
         ) : (
-          <p>Seleccione una area de cualificacion.</p>
-        ))} 
+          <p>Seleccione una area de cualificación.</p>
+        )
+      )}
     </main>
   );
 };

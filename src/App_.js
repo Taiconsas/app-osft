@@ -9,6 +9,7 @@ import IndicesPage from './pages/Indice/IndicesPage';
 import IndicePage from './pages/Indice/IndicePage';
 import EditIndicePage from './pages/Indice/EditIndicePage';
 import AuthPage from './pages/Auth/Auth';
+import { API_BASE } from "./api";
 
 const App = () => {
   const [isAuth, setIsAuth] = useState(true);
@@ -28,9 +29,9 @@ const App = () => {
 
     let request;
     if (authMode === 'login') {
-      request = axios.post('http://https://taicon-osft-services.onrender.com/login', authData);
+      request = axios.post(`${API_BASE}/login`, authData);
     } else {
-      request = axios.post('http://https://taicon-osft-services.onrender.com/signup', authData);
+      request = axios.post(`${API_BASE}/signup`, authData);
     }
     request
       .then(authResponse => {
