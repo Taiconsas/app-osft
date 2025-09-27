@@ -1,117 +1,185 @@
 import React, { useState, useEffect } from 'react';
-import Ocupacion from '../../components/Indices/Relations/Ocupacion/Ocupacion.component'
-import Conocimiento from '../../components/Indices/Relations/Conocimiento/Conocimiento.component';
-import AreaCualificacion from '../../components/Indices/Relations/AreaCualificacion/AreaCualificacion.component';
-import Funciones from '../../components/Indices/Relations/Funcion/Funcion.component';
-import OcupacionAfin from '../../components/Indices/Relations/OcupacionAfin/OcupacionAfin.component';
-import Denominacion from '../../components/Indices/Relations/Denominacion/Denominacion.component';
-import Destreza from './Relations/Destreza/Destreza.component';
 
-const IndiceDetail = ({ indice }) => {
-  const [ocupacion, setOcupacion] = useState({});
-  const [conocimiento, setConocimiento] = useState({});
-  const [areaCualificacion, setAreCualificacion] = useState({});
-  const [funciones, setFunciones] = useState({});
-  const [ocupacionAfin, setOcupacionAfin] = useState({});
-  const [denominacionOcupacion, setDenominacionOcupacion] = useState({});
-  const [destrezas, setDestrezas] = useState({});
-  const [competencia, setCompetencia] = useState({});
-
-  useEffect(() => {
-    console.log("indice..", indice);
-    setOcupacion(indice["ocupacion02"]);
-    setConocimiento(indice["conocimiento05"]);
-    setAreCualificacion(indice["ocupacion_area_cualificacion13"]);
-    setFunciones(indice["funciones04"]);
-    setOcupacionAfin(indice["ocupacion_afin07"]);
-    setDenominacionOcupacion(indice["denominaciones03"]);
-    setAreCualificacion(indice["areas"]);
-    setDestrezas(indice["destreza06"]);
-    setCompetencia(indice["competencia11"]);
-  }, [indice]);
-
-  // for (var i in indice){
-  //     console.log('element', i);
-  //     switch (i) {
-  //       case "ocupacion02":
-  //         setOcupacion(indice[i]);
-  //         console.log("ocupacion02", indice[i]);
-  //         break;
-
-  //       case "conocimiento05":
-  //         setConocimiento(indice[i]);
-  //         break;
-
-  //       case "ocupacion_area_cualificacion13":
-  //         setAreCualificacion(indice[i]);
-  //         break;
-        
-  //       case "area_cualificacion08":
-  //         setAreCualificacion(indice[i]);
-  //         break;
-        
-  //       case "funciones04":
-  //         setFunciones(indice[i]);
-  //         break;
-        
-  //       case "ocupacion_afin07":
-  //         setOcupacionAfin(indice[i]);
-  //         break;
-
-  //       case "denominaciones03":
-  //         setDenominacionOcupacion(indice[i]);
-  //         break;
-  //       // default:
-  //       //   break;
-  //     }   
-  //   }
+// Componente genérico para secciones colapsables
+const SectionToggle = ({ title, children }) => {
+  const [open, setOpen] = useState(true); // abierto por defecto
 
   return (
-    <div>
-      <h1>
-        {/* Código Indice:  */}
-        {indice.cod_indice}</h1>
-      <h2>
-        {/* Nombre de la ocupación:  */}
-        {indice.nombre_cuoc_indice}</h2>
-        <br />
-      <div>
-        {/* <h3>
-        <b>Indice gran grupo: </b>{indice.indice_gran_grupo}<br />
-        <b>Indice subgrupo principal: </b>{indice.indice_subgrupo_ppal}<br />
-        <b>Indice subgrupo: </b>{indice.indice_subgrupo}<br />
-        <b>Indice perfil ocupacional: </b>{indice.indice_perfil_ocupacional}<br />
-        <b>Indice grupo primario: </b>{indice.indice_grupo_primario}<br />
-        </h3> */}
-        <h3>
-        <br />
-        <b>Descripción de ocupación:</b>{Array.isArray(ocupacion) ? (ocupacion).map((item) => { return <Ocupacion key={item.cod_indice} ocupacion={item} competencia={competencia[0]} /> }) : "error desplegando ocupación, intente mas tarde.."}<br />
-        </h3>
-        <br />
-        <h4>
-        <b>Areas cualificación: </b>{Array.isArray(areaCualificacion) ? (areaCualificacion).map((item) => { return <AreaCualificacion key={item._id} area={item} /> }) : "error desplegando areas de conocimiento, intente mas tarde.."} <br />
-        </h4>
-        <br />
-        <h3>
-        <b>Conocimientos:</b>{Array.isArray(conocimiento) ? (conocimiento).map((item) => { return <Conocimiento key={item.id_conocimiento} conocimiento={item} /> }) : "error desplegando conocimiento, intente mas tarde.."} <br />
-        </h3>
-        <br />
-        <h4>
-        <b>Funciones:</b>{Array.isArray(funciones) ? (funciones).map((item) => { return <Funciones key={item.consecutivo_funcion} funcion={item} /> }) : "error desplegando funciones, intente mas tarde.."} <br />
-        </h4>
-        <br />
-        <h3>
-        <b>Ocupaciones afines:</b>{Array.isArray(ocupacionAfin) ? (ocupacionAfin).map((item) => { return <OcupacionAfin key={item.ocupacion_afin} ocupacion={item} /> }) : "error desplegando ocupaciones afines, intente mas tarde.."} <br />
-        </h3>
-        <br />
-        <h4>
-        <b>Denominaciones:</b>{Array.isArray(denominacionOcupacion) ? (denominacionOcupacion).map((item) => { return <Denominacion key={item.denominacion} denominacionOcu={item} /> }) : "error desplegando ocupaciones afines, intente mas tarde.."} <br />
-        </h4>
-        <br />
-         <h3>
-        <b>Destrezas:</b>{Array.isArray(destrezas) ? (destrezas).map((item) => { return <Destreza key={item.id_destreza} destreza={item} /> }) : "error desplegando ocupaciones afines, intente mas tarde.."} <br />
-        </h3>
+    <div style={sectionStyle}>
+      <div style={sectionHeaderStyle} onClick={() => setOpen(!open)}>
+        {title} {open ? '▲' : '▼'}
       </div>
+      {open && <div style={sectionContentStyle}>{children}</div>}
+    </div>
+  );
+};
+
+// Componentes individuales
+const Ocupacion = ({ ocupacion, competencia }) => (
+  <div style={itemStyle}>
+    <p>{ocupacion.descripcion_ocupacion}</p>
+    {competencia && (
+      <p style={{ fontStyle: 'italic', color: '#555' }}>
+        <b>Nivel Competencia:</b> {competencia.nivel_competencia_cuoc} - {competencia.descriptor_nivel_competencia_cuoc}
+      </p>
+    )}
+  </div>
+);
+
+const AreaCualificacion = ({ area }) => (
+  <div style={itemStyle}>
+    <b>{area.sigla_area_cualificacion}</b>: {area.nombre_area_cualificacion}
+  </div>
+);
+
+const Conocimiento = ({ conocimiento }) => (
+  <div style={itemStyle}>
+    <b>{conocimiento.nombre_conocimiento}</b> (ID: {conocimiento.id_conocimiento})
+  </div>
+);
+
+const Funciones = ({ funcion }) => (
+  <div style={itemStyle}>
+    <b>Función {funcion.consecutivo_funcion}:</b> {funcion.redaccion_funcion}
+  </div>
+);
+
+const OcupacionAfin = ({ ocupacion }) => (
+  <div style={itemStyle}>
+    <b>{ocupacion.nombre_ocupacion_afin}</b> (Código: {ocupacion.ocupacion_afin})
+  </div>
+);
+
+const Denominacion = ({ denominacionOcu }) => (
+  <div style={itemStyle}>
+    <b>{denominacionOcu.nombre_denominacion}</b> (Denominación: {denominacionOcu.denominacion})<br />
+    Fuente: {denominacionOcu.fuente_denominacion} - Código CIUO: {denominacionOcu.codigo_ciuo || 'N/A'}
+  </div>
+);
+
+const Destreza = ({ destreza }) => (
+  <div style={itemStyle}>
+    <b>{destreza.nombre_destreza}</b> (Código: {destreza.id_destreza})<br />
+    {destreza.descripcion_destreza}
+  </div>
+);
+
+// Estilos generales
+const containerStyle = {
+  maxWidth: '1000px',
+  margin: '0 auto',
+  padding: '20px',
+  fontFamily: "'Questrial', sans-serif",
+};
+
+const titleStyle = {
+  textAlign: 'center',
+  marginBottom: '5px',
+  fontSize: '2rem',
+  color: '#ffffffff',
+};
+
+const subtitleStyle = {
+  textAlign: 'center',
+  marginBottom: '20px',
+  color: '#333',
+};
+
+const sectionStyle = {
+  marginBottom: '15px',
+  border: '1px solid #ccc',
+  borderRadius: '8px',
+  overflow: 'hidden',
+  boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+};
+
+const sectionHeaderStyle = {
+  backgroundColor: '#1c52ac',
+  color: '#fff',
+  padding: '12px 16px',
+  fontWeight: 'bold',
+  cursor: 'pointer',
+  userSelect: 'none',
+};
+
+const sectionContentStyle = {
+  backgroundColor: '#f9f9f9',
+  padding: '12px 16px',
+};
+
+const itemStyle = {
+  padding: '8px 0',
+  borderBottom: '1px solid #ddd',
+};
+
+// Componente principal
+const IndiceDetail = ({ indice }) => {
+  const [ocupacion, setOcupacion] = useState([]);
+  const [conocimiento, setConocimiento] = useState([]);
+  const [areaCualificacion, setAreaCualificacion] = useState([]);
+  const [funciones, setFunciones] = useState([]);
+  const [ocupacionAfin, setOcupacionAfin] = useState([]);
+  const [denominacionOcupacion, setDenominacionOcupacion] = useState([]);
+  const [destrezas, setDestrezas] = useState([]);
+  const [competencia, setCompetencia] = useState([]);
+
+  useEffect(() => {
+    setOcupacion(indice.ocupacion02 || []);
+    setConocimiento(indice.conocimiento05 || []);
+    setAreaCualificacion(indice.areas || []);
+    setFunciones(indice.funciones04 || []);
+    setOcupacionAfin(indice.ocupacion_afin07 || []);
+    setDenominacionOcupacion(indice.denominaciones03 || []);
+    setDestrezas(indice.destreza06 || []);
+    setCompetencia(indice.competencia11 || []);
+  }, [indice]);
+
+  return (
+    <div style={containerStyle}>
+      <h1 style={titleStyle}>{indice.nombre_cuoc_indice}</h1>
+      <h3 style={subtitleStyle}>Código: {indice.cod_indice}</h3>
+
+      <SectionToggle title="Ocupación">
+        {ocupacion.map((item) => (
+          <Ocupacion key={item.cod_indice} ocupacion={item} competencia={competencia[0]} />
+        ))}
+      </SectionToggle>
+
+      <SectionToggle title="Áreas de Cualificación">
+        {areaCualificacion.map((item) => (
+          <AreaCualificacion key={item._id} area={item} />
+        ))}
+      </SectionToggle>
+
+      <SectionToggle title="Conocimientos">
+        {conocimiento.map((item) => (
+          <Conocimiento key={item.id_conocimiento} conocimiento={item} />
+        ))}
+      </SectionToggle>
+
+      <SectionToggle title="Funciones">
+        {funciones.map((item) => (
+          <Funciones key={item.consecutivo_funcion} funcion={item} />
+        ))}
+      </SectionToggle>
+
+      <SectionToggle title="Ocupaciones Afines">
+        {ocupacionAfin.map((item) => (
+          <OcupacionAfin key={item.ocupacion_afin} ocupacion={item} />
+        ))}
+      </SectionToggle>
+
+      <SectionToggle title="Denominaciones">
+        {denominacionOcupacion.map((item) => (
+          <Denominacion key={item.denominacion} denominacionOcu={item} />
+        ))}
+      </SectionToggle>
+
+      <SectionToggle title="Destrezas">
+        {destrezas.map((item) => (
+          <Destreza key={item.id_destreza} destreza={item} />
+        ))}
+      </SectionToggle>
     </div>
   );
 };
