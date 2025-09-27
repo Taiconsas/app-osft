@@ -1,0 +1,84 @@
+.area-detail {
+  padding: 20px;
+}
+
+.area-title {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* --- Grid --- */
+.area-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.area-card {
+  display: block;
+  padding: 16px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.area-card:hover {
+  border-color: #96b3ff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.card-subtitle {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+/* --- No data --- */
+.no-data {
+  margin-top: 20px;
+  font-style: italic;
+  color: #999;
+}
+
+/* --- Paginación --- */
+.pagination {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.pagination button,
+.pagination .ellipsis {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.pagination button.active {
+  background: #96b3ff;
+  color: #fff;
+  border-color: #96b3ff;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination .ellipsis {
+  cursor: default;
+}

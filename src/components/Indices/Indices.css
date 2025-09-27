@@ -1,11 +1,26 @@
-.indices {
-    width: 95%;
-    margin: auto;
+/* Estilos específicos para IndiceDetail */
+
+.indice-detail h3 {
+  margin: 10px 0;
+  padding: 10px 15px;
+  text-align: left;
+  background-color: #fff;
+  color: #000;
+  border-radius: 8px;
 }
 
+.indice-detail button {
+  padding: 10px 16px;
+  margin: 6px 0;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #1c52ac;
+  color: #fff;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+}
 
-@media (min-width: 768px) {
-    .indices {
-        width: 80%;
-    }   
+.indice-detail button:hover {
+  background-color: #163f87;
 }

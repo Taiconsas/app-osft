@@ -1,79 +1,179 @@
-import React, { useState, useEffect } from 'react';
-import Ocupacion from '../../components/Indices/Relations/Ocupacion/Ocupacion.component'
+import React, { useState, useEffect } from "react";
+import Select from "react-select"; // 👈 usar react-select
+import "./Area.css";
 
+const AreaDetail = ({ indice }) => {
+  const [indices, setIndices] = useState([]);
+  const [ocupaciones, setOcupaciones] = useState([]);
+  const [selectedOcupacion, setSelectedOcupacion] = useState(null); // ahora objeto completo
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
-const areaDetail = ({ indice }) => {
-    const [indices, setIndices] = useState({});
-    const [ocupaciones, setOcupacion] = useState({});
-    const [arreglo, setArreglo] = useState({});
-   
+  useEffect(() => {
+    if (indice) {
+      setIndices(indice.indices || []);
+      setOcupaciones(indice.ocupaciones || []);
+    }
 
-    useEffect(() => {
-        //console.log("indice..", indice);
-        setIndices(indice["indices"]);
-        setOcupacion(indice["ocupaciones"]);
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setItemsPerPage(4);
+      } else {
+        setItemsPerPage(8);
+      }
+    };
 
-        //setArreglo({...indice["indices"], ...indice["ocupaciones"] });
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [indice]);
 
-        // let sortedProducts = indice["ocupaciones"].sort(
-        //     (p1, p2) => (p1.nivel_competencia < p2.nivel_competencia) ? 1 : (p1.nivel_competencia > p2.nivel_competencia) ? -1 : 0);
+  // --- Generar opciones únicas de nivel ---
+  const nivelOptions = Array.from(
+    new Set(ocupaciones.map((ocu) => ocu?.nivel_competencia).filter(Boolean))
+  ).map((nivel) => ({
+    value: nivel,
+    label: `Nivel ${nivel}`,
+  }));
 
-        // const arreglos = {...indice["ocupaciones"] , ...indice["indices"]};
-        // console.log("Arreglos", sortedProducts);
-    }, [indice]);
-
-    // for (var i in indice){
-    //     console.log('element', i);
-    //     switch (i) {
-    //       case "ocupacion02":
-    //         setOcupacion(indice[i]);
-    //         console.log("ocupacion02", indice[i]);
-    //         break;
-
-    //       case "conocimiento05":
-    //         setConocimiento(indice[i]);
-    //         break;
-
-    //       case "ocupacion_area_cualificacion13":
-    //         setAreCualificacion(indice[i]);
-    //         break;
-
-    //       case "area_cualificacion08":
-    //         setAreCualificacion(indice[i]);
-    //         break;
-
-    //       case "funciones04":
-    //         setFunciones(indice[i]);
-    //         break;
-
-    //       case "ocupacion_afin07":
-    //         setOcupacionAfin(indice[i]);
-    //         break;
-
-    //       case "denominaciones03":
-    //         setDenominacionOcupacion(indice[i]);
-    //         break;
-    //       // default:
-    //       //   break;
-    //     }   
-    //   }
-
+  // --- Filtro ---
+  const filteredIndices = indices.filter((item, index) => {
+    if (!selectedOcupacion) return true;
     return (
-        <div>
-            <h3>
-                {Array.isArray(indices) ? (indices).map((item, index) => {
-                    return (
-                        <a href={'/indices/' + item._id}
-                            key={item.cod_indice}>
-                            <button>{ocupaciones[index].nivel_competencia} - {item.nombre_cuoc_indice}
-                            </button><br />
-                        </a>
-                    )
-                }) : "error desplegando ocupación, intente mas tarde.."}<br />
-            </h3>
-            <br />
-        </div>
+      ocupaciones[index]?.nivel_competencia === selectedOcupacion.value
     );
+  });
+
+  // --- Paginación ---
+  const totalPages = Math.ceil(filteredIndices.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedData = filteredIndices.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  const goToPage = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+  };
+
+  const getPageNumbers = () => {
+    let pages = [];
+    if (totalPages <= 7) {
+      pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+    } else {
+      if (currentPage <= 4) {
+        pages = [1, 2, 3, 4, 5, "...", totalPages];
+      } else if (currentPage >= totalPages - 3) {
+        pages = [
+          1,
+          "...",
+          totalPages - 4,
+          totalPages - 3,
+          totalPages - 2,
+          totalPages - 1,
+          totalPages,
+        ];
+      } else {
+        pages = [
+          1,
+          "...",
+          currentPage - 1,
+          currentPage,
+          currentPage + 1,
+          "...",
+          totalPages,
+        ];
+      }
+    }
+    return pages;
+  };
+
+  return (
+    <div className="area-detail">
+      <h2 className="area-title">Ocupaciones</h2>
+
+      {/* --- Filtro con react-select --- */}
+      <Select
+        placeholder="Filtrar por nivel de competencia..."
+        value={selectedOcupacion}
+        onChange={(option) => {
+          setSelectedOcupacion(option);
+          setCurrentPage(1);
+        }}
+        options={nivelOptions}
+        isClearable
+        isSearchable
+        theme={(theme) => ({
+          ...theme,
+          borderRadius: 15,
+          colors: {
+            ...theme.colors,
+            primary25: "#96b3ff",
+            primary: "#96b3ff",
+          },
+        })}
+      />
+
+      {/* --- Grid de ocupaciones --- */}
+      {paginatedData.length > 0 ? (
+        <div className="area-grid">
+          {paginatedData.map((item) => {
+            const ocu = ocupaciones[indices.indexOf(item)];
+            return (
+              <a
+                href={`/indices/${item._id}`}
+                key={item._id}
+                className="area-card"
+              >
+                <h3 className="card-title">{item.nombre_cuoc_indice}</h3>
+                <p className="card-subtitle">
+                  {ocu
+                    ? `Nivel de competencia: ${ocu.nivel_competencia}`
+                    : "Sin información de competencia"}
+                </p>
+              </a>
+            );
+          })}
+        </div>
+      ) : (
+        <p className="no-data">No hay datos disponibles...</p>
+      )}
+
+      {/* --- Paginación --- */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button
+            onClick={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            «
+          </button>
+          {getPageNumbers().map((num, idx) =>
+            num === "..." ? (
+              <span key={`ellipsis-${idx}`} className="ellipsis">
+                ...
+              </span>
+            ) : (
+              <button
+                key={num}
+                className={num === currentPage ? "active" : ""}
+                onClick={() => goToPage(num)}
+              >
+                {num}
+              </button>
+            )
+          )}
+          <button
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            »
+          </button>
+        </div>
+      )}
+    </div>
+  );
 };
 
-export default areaDetail;
+export default AreaDetail;
