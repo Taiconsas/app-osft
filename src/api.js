@@ -1,1 +1,1 @@
-export const API_BASE = "https://taicon-osft-services.onrender.com";
+export const API_BASE = "https://services-osft.onrender.com";
