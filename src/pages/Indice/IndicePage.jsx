@@ -1,178 +1,147 @@
-import React, { useState, useEffect } from "react";
-import Select from "react-select"; // 👈 usar react-select
-import "../../components/AreaCualificacion/Area.css";
+import React, { useState, useEffect, Fragment } from 'react';
+import axios from 'axios';
+import Spinner from '../../components/spinner/spinner';
+import Ocupacion from '../../components/Indices/Relations/Ocupacion/Ocupacion.component';
+import Conocimiento from '../../components/Indices/Relations/Conocimiento/Conocimiento.component';
+import AreaCualificacion from '../../components/Indices/Relations/AreaCualificacion/AreaCualificacion.component';
+import Funciones from '../../components/Indices/Relations/Funcion/Funcion.component';
+import OcupacionAfin from '../../components/Indices/Relations/OcupacionAfin/OcupacionAfin.component';
+import Denominacion from '../../components/Indices/Relations/Denominacion/Denominacion.component';
 
-const IndicePage = ({ indice }) => {
-  const [indices, setIndices] = useState([]);
-  const [ocupaciones, setOcupaciones] = useState([]);
-  const [selectedOcupacion, setSelectedOcupacion] = useState(null); // ahora objeto completo
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+import './IndicePage.css';
+import { API_BASE } from "../../api";
+
+const IndicePage = (props) => {
+  const [indice, setIndice] = useState({});
+  const [ocupacion, setOcupacion] = useState([]);
+  const [conocimiento, setConocimiento] = useState([]);
+  const [areaCualificacion, setAreaCualificacion] = useState([]);
+  const [funciones, setFunciones] = useState([]);
+  const [ocupacionAfin, setOcupacionAfin] = useState([]);
+  const [denominacionOcupacion, setDenominacionOcupacion] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (indice) {
-      setIndices(indice.indices || []);
-      setOcupaciones(indice.ocupaciones || []);
-    }
+    setIsLoading(true);
+    const value = props.match.params.id.replace('+', '').trim();
+    const url = `${API_BASE}/indices/${value}`;
 
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setItemsPerPage(4);
-      } else {
-        setItemsPerPage(8);
-      }
-    };
+    axios.get(url)
+      .then(res => {
+        const data = res.data[0] || {};
+        setIndice(data);
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [indice]);
+        setOcupacion(data.ocupacion02 || []);
+        setConocimiento(data.conocimiento05 || []);
+        setAreaCualificacion(data.ocupacion_area_cualificacion13 || data.area_cualificacion08 || []);
+        setFunciones(data.funciones04 || []);
+        setOcupacionAfin(data.ocupacion_afin07 || []);
+        setDenominacionOcupacion(data.denominaciones03 || []);
 
-  // --- Generar opciones únicas de nivel ---
-  const nivelOptions = Array.from(
-    new Set(ocupaciones.map((ocu) => ocu?.nivel_competencia).filter(Boolean))
-  ).map((nivel) => ({
-    value: nivel,
-    label: `Nivel ${nivel}`,
-  }));
+        setIsLoading(false);
+      })
+      .catch(err => {
+        setIsLoading(false);
+        console.log(err);
+        props.onError('Loading the indice failed. Please try again later');
+      });
+  }, [props.match.params.id, props]);
 
-  // --- Filtro ---
-  const filteredIndices = indices.filter((item, index) => {
-    if (!selectedOcupacion) return true;
-    return (
-      ocupaciones[index]?.nivel_competencia === selectedOcupacion.value
-    );
-  });
-
-  // --- Paginación ---
-  const totalPages = Math.ceil(filteredIndices.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedData = filteredIndices.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
-
-  const goToPage = (page) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
-  };
-
-  const getPageNumbers = () => {
-    let pages = [];
-    if (totalPages <= 7) {
-      pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-    } else {
-      if (currentPage <= 4) {
-        pages = [1, 2, 3, 4, 5, "...", totalPages];
-      } else if (currentPage >= totalPages - 3) {
-        pages = [
-          1,
-          "...",
-          totalPages - 4,
-          totalPages - 3,
-          totalPages - 2,
-          totalPages - 1,
-          totalPages,
-        ];
-      } else {
-        pages = [
-          1,
-          "...",
-          currentPage - 1,
-          currentPage,
-          currentPage + 1,
-          "...",
-          totalPages,
-        ];
-      }
-    }
-    return pages;
-  };
+  if (isLoading) return <Spinner />;
+  if (!indice.cod_indice) return <p>No se encontró información</p>;
 
   return (
-    <div className="area-detail">
-      <h2 className="area-title">Ocupaciones</h2>
+    <Fragment>
+      <main className="indice-page">
+        <h1>Índice Profesional</h1>
 
-      {/* --- Filtro con react-select --- */}
-      <Select
-        placeholder="Filtrar por nivel de competencia..."
-        value={selectedOcupacion}
-        onChange={(option) => {
-          setSelectedOcupacion(option);
-          setCurrentPage(1);
-        }}
-        options={nivelOptions}
-        isClearable
-        isSearchable
-        theme={(theme) => ({
-          ...theme,
-          borderRadius: 15,
-          colors: {
-            ...theme.colors,
-            primary25: "#96b3ff",
-            primary: "#96b3ff",
-          },
-        })}
-      />
+        <fieldset className="form-section">
+          <legend>Información General</legend>
+          <div className="form-group">
+            <label>Código Índice:</label>
+            <span>{indice.cod_indice}</span>
+          </div>
+          <div className="form-group">
+            <label>Nombre de la ocupación:</label>
+            <span>{indice.nombre_cuoc_indice}</span>
+          </div>
+          <div className="form-group">
+            <label>Índice gran grupo:</label>
+            <span>{indice.indice_gran_grupo}</span>
+          </div>
+          <div className="form-group">
+            <label>Índice subgrupo principal:</label>
+            <span>{indice.indice_subgrupo_ppal}</span>
+          </div>
+          <div className="form-group">
+            <label>Índice subgrupo:</label>
+            <span>{indice.indice_subgrupo}</span>
+          </div>
+          <div className="form-group">
+            <label>Índice perfil ocupacional:</label>
+            <span>{indice.indice_perfil_ocupacional}</span>
+          </div>
+          <div className="form-group">
+            <label>Índice grupo primario:</label>
+            <span>{indice.indice_grupo_primario}</span>
+          </div>
+        </fieldset>
 
-      {/* --- Grid de ocupaciones --- */}
-      {paginatedData.length > 0 ? (
-        <div className="area-grid">
-          {paginatedData.map((item) => {
-            const ocu = ocupaciones[indices.indexOf(item)];
-            return (
-              <a
-                href={`/indices/${item._id}`}
-                key={item._id}
-                className="area-card"
-              >
-                <h3 className="card-title">{item.nombre_cuoc_indice}</h3>
-                <p className="card-subtitle">
-                  {ocu
-                    ? `Nivel de competencia: ${ocu.nivel_competencia}`
-                    : "Sin información de competencia"}
-                </p>
-              </a>
-            );
-          })}
-        </div>
-      ) : (
-        <p className="no-data">No hay datos disponibles...</p>
-      )}
-
-      {/* --- Paginación --- */}
-      {totalPages > 1 && (
-        <div className="pagination">
-          <button
-            onClick={() => goToPage(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            «
-          </button>
-          {getPageNumbers().map((num, idx) =>
-            num === "..." ? (
-              <span key={`ellipsis-${idx}`} className="ellipsis">
-                ...
-              </span>
-            ) : (
-              <button
-                key={num}
-                className={num === currentPage ? "active" : ""}
-                onClick={() => goToPage(num)}
-              >
-                {num}
-              </button>
-            )
+        <fieldset className="form-section">
+          <legend>Descripción de la Ocupación</legend>
+          {ocupacion.length > 0 ? (
+            ocupacion.map(item => <Ocupacion key={item.cod_indice} ocupacion={item} />)
+          ) : (
+            <p>No hay información disponible</p>
           )}
-          <button
-            onClick={() => goToPage(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            »
-          </button>
-        </div>
-      )}
-    </div>
+        </fieldset>
+
+        <fieldset className="form-section">
+          <legend>Área de Cualificación</legend>
+          {areaCualificacion.length > 0 ? (
+            areaCualificacion.map(item => <AreaCualificacion key={item.codigo_area_cualificacion} area={item} />)
+          ) : (
+            <p>No hay información disponible</p>
+          )}
+        </fieldset>
+
+        <fieldset className="form-section">
+          <legend>Conocimientos</legend>
+          {conocimiento.length > 0 ? (
+            conocimiento.map(item => <Conocimiento key={item.id_conocimiento} conocimiento={item} />)
+          ) : (
+            <p>No hay información disponible</p>
+          )}
+        </fieldset>
+
+        <fieldset className="form-section">
+          <legend>Funciones</legend>
+          {funciones.length > 0 ? (
+            funciones.map(item => <Funciones key={item.consecutivo_funcion} funcion={item} />)
+          ) : (
+            <p>No hay información disponible</p>
+          )}
+        </fieldset>
+
+        <fieldset className="form-section">
+          <legend>Ocupaciones Afines</legend>
+          {ocupacionAfin.length > 0 ? (
+            ocupacionAfin.map(item => <OcupacionAfin key={item.ocupacion_afin} ocupacion={item} />)
+          ) : (
+            <p>No hay información disponible</p>
+          )}
+        </fieldset>
+
+        <fieldset className="form-section">
+          <legend>Denominaciones</legend>
+          {denominacionOcupacion.length > 0 ? (
+            denominacionOcupacion.map(item => <Denominacion key={item.denominacion} denominacionOcu={item} />)
+          ) : (
+            <p>No hay información disponible</p>
+          )}
+        </fieldset>
+      </main>
+    </Fragment>
   );
 };
 

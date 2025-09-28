@@ -11,7 +11,6 @@ import EditIndicePage from './pages/Indice/EditIndicePage';
 import AreasPage from './pages/AreaCualificacion/AreasPage';
 // import AuthPage from './pages/Auth/Auth';
 import AuthPage from './pages/Auth/Auth.jsx';
-import { API_BASE } from "./api";
 
 class App extends Component {
   state = {
