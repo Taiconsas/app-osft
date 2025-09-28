@@ -172,11 +172,6 @@ yOffset += 30 + 6; // 25 altura del header + 6px de padding interno
           })}
         />
       </div>
-      <iframe 
-  src="https://chat.openai.com/chat" 
-  width="100%" 
-  height="500px">
-</iframe>
       <br />
       {isLoading ? (
         <p>Loading indices...</p>
