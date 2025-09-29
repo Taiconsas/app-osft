@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; 
 import { NavLink } from "react-router-dom";
 import {
   FaChartBar,
@@ -14,6 +14,23 @@ import "./Header.css";
 
 const Header = ({ authenticated, onLogout }) => {
   const [collapsed, setCollapsed] = useState(false);
+
+  // Colapsar automáticamente en móviles
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setCollapsed(true);
+      } else {
+        setCollapsed(false); // opcional: expandir en escritorio
+      }
+    };
+
+    handleResize(); // Ejecutar al montar
+
+    window.addEventListener("resize", handleResize); // Reajustar si cambia tamaño
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
