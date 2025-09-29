@@ -69,9 +69,8 @@ function HuggingFaceChat({ onError }) {
         <div className="response-container">
           <h3>Macrocompetencia Generada:</h3>
           <ol>
-            {response.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
+
+            {response}
           </ol>
         </div>
       )}
