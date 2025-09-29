@@ -40,8 +40,8 @@ class App extends Component {
 
     const request =
       this.state.authMode === 'login'
-        ? axios.post(`${API_BASE}/login`, authData)
-        : axios.post(`${API_BASE}/signup`, authData);
+        ? axios.post(`${API_BASE}/auth/login`, authData)
+        : axios.post(`${API_BASE}/auth/signup`, authData);
 
     request
       .then(authResponse => {
