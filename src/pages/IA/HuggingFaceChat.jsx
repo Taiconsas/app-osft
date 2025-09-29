@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './huggingfacechat.css';
+import { API_BASE } from "../../api";
 
 function HuggingFaceChat({ onError }) {
   const [texto, setTexto] = useState("");
@@ -13,7 +14,7 @@ function HuggingFaceChat({ onError }) {
     setResponse([]);
 
     try {
-      const res = await fetch("http://localhost:3200/huggingface/text", {
+      const res = await fetch(`${API_BASE}/huggingface/text`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: texto, instrucciones: instrucciones }),
