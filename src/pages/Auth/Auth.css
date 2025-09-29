@@ -1,15 +1,74 @@
+/* 📱 Contenedor principal */
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* ocupa toda la pantalla */
+  padding: 1rem;
+  background-color: var(--gray-50);
+}
+
+/* 🔹 Caja que contiene formulario + botón de modo */
+.auth__box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* 🔹 Formulario */
 .auth__form {
-  width: 90%;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 360px;
+  padding: 2rem;
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .auth__mode-control {
   text-align: center;
-  margin: 1rem;
 }
 
+.auth__mode-control button {
+  background: var(--blue-500);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.auth__mode-control button:hover {
+  background: var(--blue-600);
+  transform: scale(1.05);
+}
+
+.auth__welcome {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.auth__welcome h2 {
+  font-size: 1.5rem;
+  color: var(--gray-50);
+  margin-bottom: 0.5rem;
+}
+
+.auth__welcome p {
+  color: var(--gray-600);
+}
+
+/* 💻 Responsivo a partir de tablet */
 @media (min-width: 768px) {
   .auth__form {
-    width: 40rem;
+    max-width: 400px;
+    padding: 3rem;
   }
 }

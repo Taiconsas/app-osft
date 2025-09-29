@@ -1,19 +1,40 @@
 .input {
   width: 100%;
-  margin: 0.5rem 0;
+  margin: 0.75rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
+/* Label */
+.input label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+/* Campo de texto */
 .input input,
 .input textarea {
   font: inherit;
   width: 100%;
-  border: 1px solid #ccc;
-  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--gray-300);
+  padding: 0.5rem 0.75rem;
   background: white;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
+/* Estado hover */
+.input input:hover,
+.input textarea:hover {
+  border-color: var(--gray-400);
+}
+
+/* Estado focus */
 .input input:focus,
 .input textarea:focus {
-  border-color: #6200ff;
+  border-color: var(--blue-500);
   outline: none;
+  box-shadow: 0 0 0 3px var(--blue-100); /* accesibilidad */
 }

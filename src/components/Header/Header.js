@@ -1,42 +1,75 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import {
+  FaChartBar,
+  FaCogs,
+  FaSignOutAlt,
+  FaArrowLeft,
+  FaArrowRight,
+  FaSignInAlt, 
+  FaRobot,
+} from "react-icons/fa";
 
-import './Header.css';
+import "./Header.css";
 
-const header = props => {
-  let links = (
-    <ul className="main-header__nav-items">
-      <li className="main-header__nav-item">
-        <NavLink to="/indices">Indices</NavLink>
-      </li>
-      {/* <li className="main-header__nav-item">
-        <NavLink to="/indice/add">Add Indice</NavLink>
-      </li> */}
-      <li className="main-header__nav-item">
-        <NavLink to="/areas">Areas Cualificacion</NavLink>
-      </li>
-
-      <li className="main-header__nav-item">
-        <button onClick={props.onLogout}>Logout</button>
-      </li>
-    </ul>
-  );
-
-  if (!props.authenticated) {
-    links = (
-      <ul className="main-header__nav-items">
-        <li className="main-header__nav-item">
-          <NavLink to="/auth">Authenticate</NavLink>
-        </li>
-      </ul>
-    );
-  }
+const Header = ({ authenticated, onLogout }) => {
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <header className="main-header">
-      <nav className="main-header__nav">{links}</nav>
-    </header>
+    <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
+      {/* Botón para colapsar / expandir */}
+      <div className="sidebar-top">
+        <button
+          className="toggle-btn"
+          onClick={() => setCollapsed(!collapsed)}
+        >
+          {collapsed ? <FaArrowRight /> : <FaArrowLeft />}
+        </button>
+      </div>
+
+      {/* Links */}
+      <ul className="sidebar-links">
+        {/* 🔹 Inicio siempre visible */}
+        <li className="sidebar-item">
+          <NavLink to="/auth" className="sidebar-link">
+            <FaSignInAlt className="sidebar-icon" />
+            <span className="sidebar-text">Inicio</span>
+          </NavLink>
+        </li>
+
+        {authenticated && (
+          <>
+            <li className="sidebar-item">
+              <NavLink to="/indices" className="sidebar-link">
+                <FaChartBar className="sidebar-icon" />
+                <span className="sidebar-text">Indices</span>
+              </NavLink>
+            </li>
+            <li className="sidebar-item">
+              <NavLink to="/areas" className="sidebar-link">
+                <FaCogs className="sidebar-icon" />
+                <span className="sidebar-text">Áreas</span>
+              </NavLink>
+            </li>
+            <li className="sidebar-item">
+              <NavLink to="/text" className="sidebar-link">
+                <FaRobot className="sidebar-icon" />
+                <span className="sidebar-text">Hugging Face</span>
+              </NavLink>
+            </li>
+
+            {/* Logout siempre abajo */}
+            <li className="sidebar-item logout-item">
+              <button onClick={onLogout} className="btn-logout">
+                <FaSignOutAlt className="sidebar-icon" />
+                <span className="sidebar-text">Logout</span>
+              </button>
+            </li>
+          </>
+        )}
+      </ul>
+    </div>
   );
 };
 
-export default header;
+export default Header;

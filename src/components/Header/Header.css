@@ -1,61 +1,120 @@
-.main-header {
-  width: 100%;
-  height: 3.5rem;
-  background: #242424;
-}
-
-.main-header__nav {
+/* Sidebar general */
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background-color: var(--gray-800);
+  color: var(--gray-50);
   display: flex;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 0 1rem;
+  flex-direction: column;
+  transition: width 0.3s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
-.main-header__nav-items {
-  height: 100%;
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.main-content {
+  margin-left: 220px;
+  transition: margin-left 0.3s;
+}
+
+.sidebar.collapsed ~ .main-content {
+  margin-left: 60px;
+}
+
+/* Partes del sidebar */
+.sidebar-top {
+  padding: 10px;
+}
+
+.sidebar-links {
   list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-bottom {
+  padding: 10px;
+}
+
+/* Items */
+.sidebar-item {
+  display: flex;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: var(--gray-50);
+  text-decoration: none;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar-link:hover {
+  background-color: var(--gray-600);
+}
+
+.sidebar-icon {
+  font-size: 18px;
+  margin-right: 12px;
+}
+
+.sidebar-text {
+  font-size: 16px;
+}
+
+/* Botón de logout */
+.btn-logout {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
 }
 
-.main-header__nav-item {
-  margin: 0 0.5rem;
+.btn-logout:hover {
+  background-color: var(--gray-600);
 }
 
-.main-header__nav-item a {
-  display: block;
-  padding: 0.25rem 0.5rem;
-  text-decoration: none;
-  color: white;
-}
-
-.main-header__nav-item a:hover,
-.main-header__nav-item a:active,
-.main-header__nav-item a.active {
-  background: #00276c;
-  border-radius: 15px;
-  color: whitesmoke;
-}
-
-.main-header__nav-item button {
-  font: inherit;
-  cursor: pointer;
+/* Botón de colapsar/expandir */
+.toggle-btn {
   border: none;
-  background: transparent;
-  padding: 0.25rem 0.5rem;
-  color: #96b3ff;
+  background: var(--gray-800);
+  color: var(--gray-50);
+  padding: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.main-header__nav-item button:hover,
-.main-header__nav-item button:active {
-  background: #00003d;
-  border-radius: 15px;
-  color: whitesmoke;
+/* Ajustes al colapsar */
+.sidebar.collapsed .sidebar-text {
+  display: none;
 }
 
-.main-header__nav-item button:focus {
-  outline: none;
+.sidebar.collapsed .sidebar-icon {
+  margin-right: 0;
+}
+
+/* Mantener logout abajo siempre */
+.logout-item {
+  margin-top: auto; /* empuja el logout al fondo */
 }

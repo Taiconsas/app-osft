@@ -63,11 +63,10 @@ const AreaDetail = ({ indice }) => {
       pages = Array.from({ length: totalPages }, (_, i) => i + 1);
     } else {
       if (currentPage <= 4) {
-        pages = [1, 2, 3, 4, 5, "...", totalPages];
+        pages = [1, 2, 3, 4, 5, totalPages];
       } else if (currentPage >= totalPages - 3) {
         pages = [
           1,
-          "...",
           totalPages - 4,
           totalPages - 3,
           totalPages - 2,
@@ -77,11 +76,9 @@ const AreaDetail = ({ indice }) => {
       } else {
         pages = [
           1,
-          "...",
           currentPage - 1,
           currentPage,
           currentPage + 1,
-          "...",
           totalPages,
         ];
       }
@@ -150,11 +147,6 @@ const AreaDetail = ({ indice }) => {
             «
           </button>
           {getPageNumbers().map((num, idx) =>
-            num === "..." ? (
-              <span key={`ellipsis-${idx}`} className="ellipsis">
-                ...
-              </span>
-            ) : (
               <button
                 key={num}
                 className={num === currentPage ? "active" : ""}
@@ -162,7 +154,6 @@ const AreaDetail = ({ indice }) => {
               >
                 {num}
               </button>
-            )
           )}
           <button
             onClick={() => goToPage(currentPage + 1)}
